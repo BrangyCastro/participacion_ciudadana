@@ -13,8 +13,8 @@ async function bootstrap() {
     .addBearerAuth()
     .setTitle('EndPoind de participación ciudadana.')
     .setDescription('http://localhost/api/')
+    .setBasePath('http://localhost/api/')
     .setVersion('0.1.0')
-    .addTag('App')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api/doc', app, document);

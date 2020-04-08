@@ -12,7 +12,6 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { GetUsersFilterDto } from './dto/get-users-filter.dto';
-import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ReadUserDto } from './dto/read-user.dto';
 import { UpdateUserDto } from './dto/update-user-dto';
@@ -20,10 +19,12 @@ import {
   ApiTags,
   ApiCreatedResponse,
   ApiForbiddenResponse,
+  ApiConflictResponse,
 } from '@nestjs/swagger';
 
 @Controller('user')
 @ApiTags('user')
+@ApiConflictResponse()
 export class UserController {
   constructor(private _userService: UserService) {}
 

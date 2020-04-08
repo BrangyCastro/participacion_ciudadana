@@ -8,6 +8,7 @@ import { plainToClass } from 'class-transformer';
 import { ReadUserDto } from './dto/read-user.dto';
 import { Status } from '../../shared/status.enum';
 import { UpdateUserDto } from './dto/update-user-dto';
+import { UserDetailService } from '../user-detail/user-detail.service';
 
 @Injectable()
 export class UserService {

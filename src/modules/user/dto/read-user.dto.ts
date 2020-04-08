@@ -1,6 +1,7 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsEmail, IsNotEmpty } from 'class-validator';
 import { Type, Exclude, Expose } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
+import { ReadUserDetailDto } from './../../user-detail/dto/read-user-detail.dto';
 
 @Exclude()
 export class ReadUserDto {
@@ -23,4 +24,8 @@ export class ReadUserDto {
   @ApiProperty()
   @IsNotEmpty()
   readonly status: string;
+
+  @Expose()
+  @Type(type => ReadUserDetailDto)
+  readonly details: ReadUserDetailDto;
 }

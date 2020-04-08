@@ -5,16 +5,18 @@ import { GetUsersFilterDto } from './dto/get-users-filter.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { plainToClass } from 'class-transformer';
 import { ReadUserDto } from './dto/read-user.dto';
+import { UserDetail } from '../user-detail/user-detail.entity';
+import { Status } from '../../shared/status.enum';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
   async getTasks(filterDto: GetUsersFilterDto): Promise<ReadUserDto[]> {
-    const { status, search } = filterDto;
-    const query = this.createQueryBuilder('users');
+    // const { status, search } = filterDto;
+    // const query = this.createQueryBuilder('users');
 
-    if (status) {
-      query.andWhere('users.status = :status', { status });
-    }
+    // if (status) {
+    //   query.andWhere('users.status = :status', { status });
+    // }
     // if (search) {
     //   query.andWhere(
     //     '(task.titulo LIKE :search OR task.descripcion LIKE :search)',
@@ -22,8 +24,8 @@ export class UserRepository extends Repository<User> {
     //   );
     // }
 
-    const users = await query.getMany();
-    return users.map((user: User) => plainToClass(ReadUserDto, user));
+    // const users = await query.getMany();
+    // return users.map((user: User) => plainToClass(ReadUserDto, user));
     // try {
     // } catch (error) {
     //   this.logger.error(
@@ -34,6 +36,11 @@ export class UserRepository extends Repository<User> {
     //   );
     //   throw new InternalServerErrorException();
     // }
+    const users: User[] = await this.find({
+      where: { status: Status.ACTIVE },
+    });
+
+    return users.map((user: User) => plainToClass(ReadUserDto, user));
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<ReadUserDto> {
@@ -43,6 +50,9 @@ export class UserRepository extends Repository<User> {
     user.username = username;
     user.password = password;
     user.email = email;
+
+    const details = new UserDetail();
+    user.details = details;
 
     try {
       await user.save();
